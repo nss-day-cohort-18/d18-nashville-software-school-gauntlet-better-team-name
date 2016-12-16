@@ -18,6 +18,9 @@ var Gauntlet = function ($$gauntlet) {
       // Calculate base weapon damage
       let damage = Math.round(Math.random() * this.base_damage + 1);
 
+      // Calculate if a critical hit was made
+
+
       // Add strength modifier and reduce by target's armor
       damage += Math.round(this.strength_modifier - target.protection);
 
@@ -39,34 +42,33 @@ var Gauntlet = function ($$gauntlet) {
   // WeaponRack will hold all defined weapons
   $$gauntlet.WeaponRack = function () {
     let weapon_list = [];
+    let _internal = Object.create(null);
 
-    return {
+    // Method to return the entire collection of weapons
+    _internal.weapons = () => {
+      return weapon_list;
+    };
 
-      // Method to return the entire collection of weapons
-      weapons () {
-        return weapon_list;
-      },
+    // Method to load the weapons from the JSON file
+    _internal.load = () => {
+      return new Promise((resolve, reject) => {
+        $.ajax({url: "./data/weapons.json"}).done(response => {
+          // Iterate all weapon objects in the JSON file
+          response.weapons.each(weapon =>
+            weapon_list.push(
+              __.compose(Weapon, weapon))
+            );
 
-      // Method to load the weapons from the JSON file
-      load () {
-        return new Promise((resolve, reject) => {
-          $.ajax({url: "./data/weapons.json"}).done(response => {
+          // Resolve the weapon loading promise with the weapon list
+          resolve(weapon_list);
 
-            // Iterate all weapon objects in the JSON file
-            response.weapons.each(weapon =>
-              weapon_list.push(
-                __.compose(Weapon, weapon))
-              );
-
-            // Resolve the weapon loading promise with the weapon list
-            resolve(weapon_list);
-
-          }).fail((xhr, error, msg) => {
-            reject(msg);
-          });
+        }).fail((xhr, error, msg) => {
+          reject(msg);
         });
-      }
-    }
+      });
+    };
+
+    return _internal;
   }();
 
   return $$gauntlet;

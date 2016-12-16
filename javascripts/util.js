@@ -1,42 +1,5 @@
 "use strict";
 
-const help = (topic) => {
-  if (!topic) {
-    console.log("help('weapons' || 'w') -- Show all available weapons.");
-    console.log("help('monsters' || 'm') -- Show all available monsters.");
-    console.log("help('spells' || 's') -- Show all available spells.");
-  } else {
-    let output = "";
-
-    switch(topic) {
-      case "weapons":
-      case "w":
-        console.clear();
-        output += `Weapon              Base Dmg     Poison    Ranged\n====================================================\n`;
-        Gauntlet.WeaponRack.weapons().each(w => output += `${(w.label + " ".repeat(20)).slice(0, 20)}${(w.base_damage + " ".repeat(13)).slice(0,13)}${(w.poisoned + " ".repeat(6)).slice(0,10)}${w.ranged}\n`);
-        break;
-
-
-      case "spells":
-      case "s":
-        console.clear();
-        output += `Spell              Range        Effect         Defensive\n=========================================================\n`;
-        Gauntlet.Spellbook.spells().each(w => output += `${(w.id + " ".repeat(20)).slice(0, 19)}${((w.base_effect + " - " + (w.base_effect + w.effect_modifier)) + " ".repeat(13)).slice(0,13)}${(w.affected_trait + " ".repeat(15)).slice(0,15)}${w.defensive}\n`);
-        break;
-
-
-      case "monsters":
-      case "m":
-        console.clear();
-        output += `Species        Mods: Health   Strength   Intelligence\n=====================================================\n`;
-        Gauntlet.Horde.all().each(w => output += `${(w.species + " ".repeat(22)).slice(0, 21)}${(w.healthModifier + " ".repeat(10)).slice(0, 9)}${(w.strengthModifier + " ".repeat(12)).slice(0, 11)}${(w.intelligenceModifier + " ".repeat(12)).slice(0, 11)}\n`)
-        break;
-    }
-    console.log(output);
-  }
-};
-
-
 /*
   This object allows any object to define its own properties and methods.
   Chainable.
@@ -48,6 +11,7 @@ const help = (topic) => {
 const ObjectExtensions = (() => {
   let o = {};
 
+  // Used for defining a writable/enumerable property
   o.property = new Proxy(Object.defineProperty, {
     apply: function (_target, _this, _args) {
       _target(_this, _args[0], {
@@ -60,6 +24,7 @@ const ObjectExtensions = (() => {
     }
   });
 
+  // Used for defining an enumerable function
   o.def = new Proxy(Object.defineProperty, {
     apply: function (_target, _this, _args) {
       _target(_this, _args[0], {
@@ -98,6 +63,17 @@ const __ = (() => {
 // CAUTION: Extend native prototypes only if you understand the consequences
 (() => {
 
+  // Add a `listen()` method on any EventTarget. Proxies to `addEventListener`.
+  if (!("listen" in EventTarget.prototype)) {
+    Object.defineProperty(EventTarget.prototype, "listen", {
+      value: new Proxy(EventTarget.prototype.addEventListener, {
+        apply: function (_target, _this, _args) {
+          return _target.apply(_this, _args);
+        }
+      })
+    });
+  }
+
   // Add an `each()` method to Array that is a Proxy to `forEach()`
   if (!("each" in Array.prototype)) {
     Object.defineProperty(Array.prototype, "each", {
@@ -105,10 +81,7 @@ const __ = (() => {
         apply: function (_target, _this, _args) {
           return _target.apply(_this, _args);
         }
-      }),
-      writable: false,
-      enumerable: false,
-      configurable: false
+      })
     });
   }
 
@@ -150,3 +123,40 @@ const __ = (() => {
     });
   }
 })();
+
+
+const help = (topic) => {
+  if (!topic) {
+    console.log("help('weapons' || 'w') -- Show all available weapons.");
+    console.log("help('monsters' || 'm') -- Show all available monsters.");
+    console.log("help('spells' || 's') -- Show all available spells.");
+  } else {
+    let output = "";
+
+    switch(topic) {
+      case "weapons":
+      case "w":
+        console.clear();
+        output += `Weapon              Base Dmg     Poison    Ranged\n====================================================\n`;
+        Gauntlet.WeaponRack.weapons().each(w => output += `${(w.label + " ".repeat(20)).slice(0, 20)}${(w.base_damage + " ".repeat(13)).slice(0,13)}${(w.poisoned + " ".repeat(6)).slice(0,10)}${w.ranged}\n`);
+        break;
+
+
+      case "spells":
+      case "s":
+        console.clear();
+        output += `Spell              Range        Effect         Defensive\n=========================================================\n`;
+        Gauntlet.Spellbook.spells().each(w => output += `${(w.id + " ".repeat(20)).slice(0, 19)}${((w.base_effect + " - " + (w.base_effect + w.effect_modifier)) + " ".repeat(13)).slice(0,13)}${(w.affected_trait + " ".repeat(15)).slice(0,15)}${w.defensive}\n`);
+        break;
+
+
+      case "monsters":
+      case "m":
+        console.clear();
+        output += `Species        Mods: Health   Strength   Intelligence\n=====================================================\n`;
+        Gauntlet.Horde.all().each(w => output += `${(w.species + " ".repeat(22)).slice(0, 21)}${(w.healthModifier + " ".repeat(10)).slice(0, 9)}${(w.strengthModifier + " ".repeat(12)).slice(0, 11)}${(w.intelligenceModifier + " ".repeat(12)).slice(0, 11)}\n`)
+        break;
+    }
+    console.log(output);
+  }
+};

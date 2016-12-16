@@ -2,13 +2,14 @@
 
 /*
   Use promises to load, in the correct order, the JSON files
-  needed to establish all the prototype chains needed.
+  needed to establish all the prototype chains.
  */
-Gauntlet.WeaponRack.load()
-  .then(Gauntlet.Spellbook.load)
-  .then(Gauntlet.Horde.load)
-  .then(Gauntlet.GuildHall.load)
-  .then(() => {
+(async () => {
+  await Gauntlet.WeaponRack.load();
+  await Gauntlet.Spellbook.load();
+  await Gauntlet.Horde.load();
+  await Gauntlet.GuildHall.load();
+})().then(() => {
 
   /*
     Test code to generate a human player and a random enemy
@@ -23,6 +24,33 @@ Gauntlet.WeaponRack.load()
   enemy.equip();
   console.log(enemy.toString());
   console.groupEnd("Sample Combatants");
+
+
+  // Populate the professions view
+  let cellTracker = 1;
+
+  let professionHTML = '<div class="row">';
+  for (let c of Gauntlet.GuildHall.classes().values()) {
+    if (c.playable) {
+      professionHTML += '<div class="col-sm-4">';
+      professionHTML += '  <div class="card__button">';
+      professionHTML += '    <a class="class__link btn btn--big btn--blue" href="#">';
+      professionHTML += '      <span class="btn__prompt">&gt;</span>';
+      professionHTML += `      <span class="btn__text">${c.label}</span>`;
+      professionHTML += '    </a>';
+      professionHTML += '  </div>';
+      professionHTML += '</div>';
+
+      if (cellTracker % 3 === 0) {
+        professionHTML += '</div>';
+        professionHTML += '<div class="row">';
+      }
+      cellTracker++;
+    }
+  }
+  professionHTML += '</div>';
+  $(".professions__container").append(professionHTML);
+
 
   /*
     To have a sample battle run in the console, without needing
@@ -41,7 +69,7 @@ Gauntlet.WeaponRack.load()
       }
     }, 2000);
   }
-});
+}).catch(console.error);
 
 $(document).ready(function() {
 
@@ -53,94 +81,83 @@ $(document).ready(function() {
   let chosenProfession = null;
   let chosenWeapon = null;
   let battleground = null;
-
-  $("#player-setup").show();
-
-  /*
-    When any button with card__link class is clicked,
-    move on to the next view.
-   */
-  $(".card__link").click(function(e) {
-    let currentCard = $(this).attr("current");
-    let nextCard = $(this).attr("next");
-    let moveAlong = false;
-
-    switch (currentCard) {
-      case "card--name":
-        moveAlong = $("#player-name").val() !== "";
-        break;
-      case "card--class":
-        moveAlong = chosenProfession !== null;
-        break;
-      case "card--weapon":
-        console.log("chosenWeapon",chosenWeapon);
-        moveAlong = chosenWeapon !== null;
-        break;
-    };
-
-    if (moveAlong) {
-      /*
-        If all requirements met to move along to the next screen, set
-        that screen up now if there is any dynamic elements that need
-        to be created before it is shown.
-       */
-      switch (nextCard) {
-        case "card--class":
-          break;
-
-        case "card--weapon":
-          if (chosenProfession.magical) {
-            HumanCombatant.equip(chosenProfession);
-            nextCard = "card--battleground";
-            startCombat();
-          } else {
-            let weaponEl = $("#weapon-select").children(".card__prompt");
-            $(".weapons").remove();
-
-            let block = ['<div class="row weapons">',
-                         '<div class="col-sm-6">'];
-
-            chosenProfession.allowedWeapons.each((weapon, index) => {
-              let weaponName = Gauntlet.WeaponRack
-                                       .weapons()
-                                       .find(w => w.id === weapon)
-                                       .toString();
-
-              // Close individual rows and start new ones
-              if (index === 3) {
-                block.push('</div>', '<div class="col-sm-6">');
-              }
-
-              // Add weapon block to DOM
-              block.push('<div class="card__button">',
-                         '<a class="weapon__link btn btn--big btn--blue" href="#">',
-                         '<span class="btn__prompt">&gt;</span>',
-                         `<span class="btn__text weapon__name" weapon='${weapon}'>${weaponName}</span>`,
-                         '</a></div>');
-            });
-            block.push("</div></div>");
-            weaponEl.append(block.join(""));
-          }
-          break;
-
-        case "card--battleground":
-          HumanCombatant.equip(chosenProfession, chosenWeapon);
-          startCombat();
-
-          break;
-      }
-
-      /*
-        Now that any initialization is done, hide all cards and show next one
-       */
-      $(".card").hide();
-      $("." + nextCard).show();
-    }
-  });
-
   let continueBattle = true;
   let battleTimer;
 
+  // Show player name view initially
+  $("#player-setup").show();
+
+
+  // When user enters name, show the profession view
+  $("#player-name").on("keydown", function (e) {
+    if ($(this).val() && e.keyCode == 13) {
+      HumanCombatant = Gauntlet.Army.Human.init($("#player-name").val());
+      $(".card").hide();
+      $(".card--class").show();
+    }
+  });
+
+
+  // When user selects a profession, show the weapon view
+  $(document).on("click", ".class__link", function(e) {
+    chosenProfession = Gauntlet.GuildHall.classes().get($(this).children(".btn__text").html());
+    $(".card").hide();
+
+    if (chosenProfession.magical) {
+      HumanCombatant.equip(chosenProfession);
+      $(".card--battleground").show();
+      startCombat();
+    } else {
+      let weaponEl = $("#weapon-select").children(".card__prompt");
+      $(".weapons").remove();
+
+      let block = ['<div class="row weapons">',
+                   '<div class="col-sm-6">'];
+
+      chosenProfession.allowedWeapons.each((weapon, index) => {
+        let weaponName = Gauntlet.WeaponRack
+                                 .weapons()
+                                 .find(w => w.id === weapon)
+                                 .toString();
+
+        // Close individual rows and start new ones
+        if (index === 3) {
+          block.push('</div>', '<div class="col-sm-6">');
+        }
+
+        // Add weapon block to DOM
+        block.push('<div class="card__button">',
+                   '<a class="weapon__link btn btn--big btn--blue" href="#">',
+                   '<span class="btn__prompt">&gt;</span>',
+                   `<span class="btn__text weapon__name" weapon='${weapon}'>${weaponName}</span>`,
+                   '</a></div>');
+      });
+      block.push("</div></div>");
+      weaponEl.append(block.join(""));
+      $(".card--weapon").show();
+    }
+
+  });
+
+
+  /*
+    Handle user choosing a weapon for the human combatant
+   */
+  $(document).on("click", ".weapon__link", function(e) {
+    let weapon = $(this).find(".btn__text").attr("weapon");
+    chosenWeapon = Gauntlet.WeaponRack
+                             .weapons()
+                             .find(w => w.id === weapon);
+    HumanCombatant.equip(chosenProfession, chosenWeapon);
+
+    $(".card").hide();
+    $(".card--battleground").show();
+
+    startCombat();
+  });
+
+
+  // Define the logic that will display the results after each round of combat
   function meleeRound() {
     if (!battleground.melee()) {
       window.clearInterval(battleTimer);
@@ -158,6 +175,7 @@ $(document).ready(function() {
     $("#battle-record").scrollTop(9999999);
   }
 
+  // Begin the battle
   function startCombat() {
     EnemyCombatant = Gauntlet.Horde.random();
     // EnemyCombatant = Gauntlet.Horde.soldier("Dragon");
@@ -190,25 +208,7 @@ $(document).ready(function() {
     $(".card").hide();
     $("#player-setup").show();
     $("#battle-record").empty();
-  });
-
-  /*
-    Handle user choosing a profession for the human combatant
-   */
-  $(".class__link").click(function(e) {
-    HumanCombatant = Gauntlet.Army.Human.init($("#player-name").val());
-    chosenProfession = Gauntlet.GuildHall.classes().get($(this).children(".btn__text").html());
-  });
-
-
-  /*
-    Handle user choosing a weapon for the human combatant
-   */
-  $(document).on("click", ".weapon__link", function(e) {
-    let weapon = $(this).find(".btn__text").attr("weapon");
-    chosenWeapon = Gauntlet.WeaponRack
-                             .weapons()
-                             .find(w => w.id === weapon);
+    $("#player-name").focus();
   });
 
 
@@ -220,6 +220,5 @@ $(document).ready(function() {
     $(".card").hide();
     $(`.${previousCard}`).show();
   });
-
 
 });
