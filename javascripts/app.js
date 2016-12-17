@@ -5,7 +5,7 @@
   needed to establish all the prototype chains.
  */
 (async () => {
-  await Gauntlet.WeaponRack.load();
+  await Gauntlet.Armory.load();
   await Gauntlet.Spellbook.load();
   await Gauntlet.Horde.load();
   await Gauntlet.GuildHall.load();
@@ -62,7 +62,7 @@
 
    */
   if (__.getURLParameter("console") === "true") {
-    let battleground = new Battleground(warrior, enemy, true);
+    let battleground = Gauntlet.Battleground.init(warrior, enemy, true);
     let battleTimer = window.setInterval(() => {
       if (!battleground.melee()) {
         window.clearInterval(battleTimer);
@@ -115,7 +115,7 @@ $(document).ready(function() {
                    '<div class="col-sm-6">'];
 
       chosenProfession.allowedWeapons.each((weapon, index) => {
-        let weaponName = Gauntlet.WeaponRack
+        let weaponName = Gauntlet.Armory
                                  .weapons()
                                  .find(w => w.id === weapon)
                                  .toString();
@@ -145,7 +145,7 @@ $(document).ready(function() {
    */
   $(document).on("click", ".weapon__link", function(e) {
     let weapon = $(this).find(".btn__text").attr("weapon");
-    chosenWeapon = Gauntlet.WeaponRack
+    chosenWeapon = Gauntlet.Armory
                              .weapons()
                              .find(w => w.id === weapon);
     HumanCombatant.equip(chosenProfession, chosenWeapon);
@@ -184,7 +184,7 @@ $(document).ready(function() {
     $(".battle--human").html(HumanCombatant.toString());
     $(".battle--enemy").html(EnemyCombatant.toString());
 
-    battleground = new Battleground(HumanCombatant, EnemyCombatant);
+    battleground = Gauntlet.Battleground.init(HumanCombatant, EnemyCombatant);
     battleTimer = window.setInterval(meleeRound, 2000);
   }
 

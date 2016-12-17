@@ -106,7 +106,7 @@ var Gauntlet = function (gauntlet) {
     .def("setWeapon", function(newWeapon) {
       try {
         if (this.profession && !this.profession.magical && !newWeapon) {
-          this.weapon = gauntlet.WeaponRack.weapons().random();
+          this.weapon = gauntlet.Armory.weapons().random();
         } else if (newWeapon) {
           this.weapon = newWeapon;
         }

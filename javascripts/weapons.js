@@ -39,8 +39,8 @@ var Gauntlet = function ($$gauntlet) {
     toString () { return `${this.label}`; }
   };
 
-  // WeaponRack will hold all defined weapons
-  $$gauntlet.WeaponRack = function () {
+  // Armory will hold all defined weapons
+  $$gauntlet.Armory = function () {
     let weapon_list = [];
     let _internal = Object.create(null);
 
