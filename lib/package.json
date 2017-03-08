@@ -14,9 +14,10 @@
   },
   "dependencies": {
     "angular": "^1.6.2",
+    "angular-animate": "^1.4.1",
+    "angular-aria": "^1.4.1",
+    "angular-material": "^0.10.0",
     "angular-route": "^1.6.2",
-    "bootstrap": "^3.3.7",
-    "firebase": "^3.6.9",
     "jquery": "^3.1.1"
   }
 }
