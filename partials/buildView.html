@@ -1,0 +1,41 @@
+<div>
+    <md-content>
+        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+            <md-toolbar class="md-tall">
+                <h1 class="md-toolbar-tools">
+                <span>Welcome to the GAUNTLET</span>
+                </h1>
+            </md-toolbar>
+            <md-button class="md-raised md-primary" ng-click="toggleLeft()">Build Your Fighter</md-button>
+        </section>
+    <md-content>
+</div>
+<div layout="column" style="height: 500px;" ng-cloak>
+    <section layout="row" flex>
+        <md-sidenav class="md-sidenav-left" md-component-id="left"
+        md-disable-backdrop md-whiteframe="4">
+            <md-toolbar class="md-theme-indigo">
+                <h1 class="md-toolbar-tools">Champions</h1>
+            </md-toolbar>
+            <md-content layout-margin>
+                <md-card>
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-subhead">Choose wisely if you want to win.</span>
+                        </md-card-title-text>
+                    </md-card-title>
+                    <md-card-content>
+                        <div layout="row" layout-align="space-between center">
+                            <md-select ng-model="weapon" placeholder="Champion Style" class="md-no-underline">
+                                <md-option value="Warrior" ng-click="goToChosen('Warrior')">Warrior</md-option>
+                                <md-option value="Wizard" ng-click="goToChosen('Wizard')">Wizard</md-option>
+                                <md-option value="Assassin" ng-click="goToChosen('Assassin')">Assassin</md-option>
+                            </md-select>
+                        </div>
+                    </md-card-content>
+                </md-card>
+                <a ng-href="#!/{{selected}}"><md-button ng-click="toggleLeft()" class="md-accent">Pick your weapon</md-button></a>
+            </md-content>
+        </md-sidenav>
+    </section>
+</div>
