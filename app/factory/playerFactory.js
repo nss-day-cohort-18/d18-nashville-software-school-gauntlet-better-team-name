@@ -16,14 +16,14 @@ let Combatant = {
 		 	console.log("Champions health is trying");
 
 		 	return (Math.random() * (100-80)) + 80;}},
-	
+
 		 chosenWeapon: {value: null},
-		
+
 		chooseWeapon: {value: function(selectedWeapon){
 		this.chosenWeapon.name = selectedWeapon;
 			// let weaponsKeys = this.weapons.Object.keys();
 		// 	let weaponsVals = this.weapons.Object.values();
-			
+
 		// 	for (var weaponsKeys in  selectedWeapon){
 		// 		console.log("starting out weapons keys loop");
 		// 		for (var weaponsVals in weaponsKeys){
@@ -31,11 +31,11 @@ let Combatant = {
 		// 			return this.chosenWeapon.damage;
 		// 		}
 			}}
-});			
+});
 
 		let Warrior = Object.create(Champion, {
 		weapons: {value: [{dagger: 5},{axe: 10},{sword: 15}]},
-		
+
 	});
 
 	let Wizard = Object.create(Champion, {
@@ -47,19 +47,22 @@ let Combatant = {
 		weapons: {value: [{pocket_sand: 15},{rock: 5},{throwing_star: 15}]
 	}
 });
-	
+
 // let Monster = Object.create(Combatant, function(){
-		
+
 // 		health: function(){return (Math.random() * (100-60)) + 60;},
 		//weapon:
 // 		//write a function to loop through weapons array and chose random index
 // 		 function(){return Math.random() * (number) + othernumber;},
-			
-		
+
+
 
 // 		});
 
 
 // };
-return{log, Assassin, Wizard, Warrior};
-}); 
+
+
+
+return{log, Warrior, Wizard, Assassin};
+});
