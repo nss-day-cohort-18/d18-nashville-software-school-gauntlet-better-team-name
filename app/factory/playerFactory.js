@@ -3,10 +3,7 @@
 app.factory("PlayerStorage", function(){
 	console.log("our Playerfactory wants to run");
 
-
-
-	
-	let Combatant = {
+let Combatant = {
 		health: null,
 		weapon: null,
 		useweapon: function(){}
@@ -14,11 +11,8 @@ app.factory("PlayerStorage", function(){
 
 	let log = function(){console.log("Combatant", Combatant);};
 
-
-
 	let Champion = Object.create(Combatant, {
-		
-		 health: {value: function(){
+		health: {value: function(){
 		 	console.log("Champions health is trying");
 
 		 	return (Math.random() * (100-80)) + 80;}},
@@ -39,45 +33,25 @@ app.factory("PlayerStorage", function(){
 			}}
 });			
 
-		
-
-		
- 		
-
-
-	let Warrior = Object.create(Champion, {
-	
+		let Warrior = Object.create(Champion, {
 		weapons: {value: [{dagger: 5},{axe: 10},{sword: 15}]},
 		
-		
-		
-
 	});
 
 	let Wizard = Object.create(Champion, {
-		
 		weapons: {value: [{spell: 10},{potion: 15},{butterbeer: 20}]
-		
-	}
+		}
 });
 
 	let Assassin = Object.create(Champion, {
-		
-		weapons: {value: [{pocket_sand: 15},{rock: 5},{throwing_star: 15}]}
-		
-	});
+		weapons: {value: [{pocket_sand: 15},{rock: 5},{throwing_star: 15}]
+	}
+});
 	
- 
-
-
-
-
-
 // let Monster = Object.create(Combatant, function(){
 		
 // 		health: function(){return (Math.random() * (100-60)) + 60;},
-		
-// 		weapon:
+		//weapon:
 // 		//write a function to loop through weapons array and chose random index
 // 		 function(){return Math.random() * (number) + othernumber;},
 			
@@ -87,22 +61,5 @@ app.factory("PlayerStorage", function(){
 
 
 // };
-
-
-// Wizard, Warrior, Assassin, Monster
-
-
-
-	return{log, Assassin, Wizard, Warrior};
-
+return{log, Assassin, Wizard, Warrior};
 }); 
-
-
-
-
-
-
-
-
-
-
