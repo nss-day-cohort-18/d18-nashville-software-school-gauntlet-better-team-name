@@ -9,7 +9,7 @@ let Combatant = {
 		useweapon: function(){}
 	};
 
-	let log = function(){console.log("Combatant", Combatant);};
+	// let log = function(){console.log("Combatant", Combatant);};
 
 	let Champion = Object.create(Combatant, {
 		health: {value: function(){
@@ -48,10 +48,37 @@ let Combatant = {
 	}
 });
 	
-// let Monster = Object.create(Combatant, function(){
-		
-// 		health: function(){return (Math.random() * (100-60)) + 60;},
-		//weapon:
+ let Monster = Object.create(Combatant, {
+		health: {value: function(){
+ 			console.log("Monster health");
+ 			return (Math.random() * (90-65)) + 65;}},
+ 		// weapons: {value: []},
+ 		chosenWeapon: {value: null},
+		chooseWeapon: {value: function(){
+			console.log("monster weapon");
+			let indexNum = (Math.random() * (2-0)) + 0;
+			return indexNum;
+				}}
+			
+			
+		});
+
+ let Vampire = Object.create(Monster, {
+ 	weapons: {value: [{fangs: 15}, {handsomeness: 20}, {hellhounds: 10}]
+ 	}
+ });
+
+ let Werewolf = Object.create(Monster, {
+ 	weapons: {value: [{claws: 10}, {howl: 15}, {dogBreath: 20}]
+ 	}
+ });
+
+ let Politician = Object.create(Monster, {
+ 	weapons: {value: [{alternativeFacts: 10}, {lies: 15}, {obfuscations: 20}]
+ 	}
+ });
+
+
 // 		//write a function to loop through weapons array and chose random index
 // 		 function(){return Math.random() * (number) + othernumber;},
 			
@@ -61,5 +88,5 @@ let Combatant = {
 
 
 // };
-return{log, Assassin, Wizard, Warrior};
+return{log, Assassin, Wizard, Warrior, Politician, Werewolf, Vampire};
 }); 
