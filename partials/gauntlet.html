@@ -6,53 +6,50 @@
                 <span>You are in the GAUNTLET</span>
                 </h1>
             </md-toolbar>
-
-
         </section>
     <md-content>
 </div>
 
 <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-<md-content class="md-padding" layout-xs="column" layout="row">
-  <md-card md-theme="{{ showDarkTheme ? 'dark-orange' : 'default' }}" md-theme-watch>
-    <md-card-title>
-      <md-card-title-text>
-        <span class="md-headline">Player's {{selected}}</span><br>
-        <span class="md-subhead">Weapon placeholder</span><br>
-        <h2>Health:</h2>
-        <h3>placeholder</h3>
-      </md-card-title-text>
-    </md-card-title>
-    <md-card-content layout="row" layout-align="space-between">
-      <div class="md-media-xl card-media"></div>
-    </md-card-content>
-  </md-card>
+    <md-content class="md-padding" layout-xs="column" layout="row">
+        <md-card md-theme="{{ showDarkTheme ? 'dark-orange' : 'default' }}" md-theme-watch>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">Player's {{selected}}</span><br>
+                    <span class="md-subhead">Weapon placeholder</span><br>
+                    <h2>Health:</h2>
+                    <h3>placeholder</h3>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content layout="row" layout-align="space-between">
+                <div class="md-media-xl card-media"></div>
+            </md-card-content>
+        </md-card>
 
+        <div flex-xs flex-gt-xs="50" layout="column">
+            <md-card md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch>
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">VS.</span>
+                    </md-card-title-text>
+                </md-card-title>
+            </md-card>
+        </div>
 
-    <div flex-xs flex-gt-xs="50" layout="column">
-      <md-card md-theme="{{ showDarkTheme ? 'dark-purple' : 'default' }}" md-theme-watch>
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">VS.</span>
-          </md-card-title-text>
-        </md-card-title>
-      </md-card>
-    </div>
-
-    <md-card md-theme="{{ showDarkTheme ? 'dark-orange' : 'default' }}" md-theme-watch>
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">A monster placeholder</span><br>
-            <span class="md-subhead">Weapon placeholder</span><br>
-            <h2>Health:</h2>
-            <h3>placeholder</h3>
-          </md-card-title-text>
-        </md-card-title>
-        <md-card-content layout="row" layout-align="space-between">
-          <div class="md-media-xl card-media"></div>
-        </md-card-content>
-      </md-card>
-</md-content>
+        <md-card md-theme="{{ showDarkTheme ? 'dark-orange' : 'default' }}" md-theme-watch>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">A monster placeholder</span><br>
+                    <span class="md-subhead">Weapon placeholder</span><br>
+                    <h2>Health:</h2>
+                    <h3>placeholder</h3>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content layout="row" layout-align="space-between">
+                <div class="md-media-xl card-media"></div>
+            </md-card-content>
+        </md-card>
+    </md-content>
 </section>
 <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
     <md-button class="md-raised md-primary" ng-click="">FIGHT!!!</md-button>
