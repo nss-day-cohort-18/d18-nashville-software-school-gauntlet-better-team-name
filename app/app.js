@@ -8,8 +8,8 @@ app.config(function($routeProvider) {
         templateUrl: "partials/buildView.html",
         controller: "AppCtrl"
     })
-    .when("/:chosen", {
-        templateUrl: "partials/chosenChampion.html",
+    .when("/gauntlet/:selected", {
+        templateUrl: "partials/gauntlet.html",
         controller: "PlayerCtrl"
     });
 });

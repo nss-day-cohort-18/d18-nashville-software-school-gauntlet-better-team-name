@@ -9,9 +9,5 @@ app.controller("PlayerCtrl", function($scope, $routeParams, PlayerStorage) {
     let player = Object.create(PlayerStorage.Assassin, {
 	    });
 
-    
-
-   
-
-
 });
+
