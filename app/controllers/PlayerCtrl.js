@@ -1,6 +1,7 @@
 "use strict";
 
-app.controller("PlayerCtrl", function($scope, $routeParams, $mdSidenav) {
-    console.log('$routeParams.chosen = ', $routeParams.chosen);
-    $scope.chosen = $routeParams.chosen;
+app.controller("PlayerCtrl", function($scope, $routeParams) {
+    console.log('$routeParams.selected = ', $routeParams.selected);
+    $scope.selected = $routeParams.selected;
 });
+
