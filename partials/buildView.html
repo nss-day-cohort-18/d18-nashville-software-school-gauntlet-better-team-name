@@ -32,9 +32,28 @@
                                 <md-option value="Assassin" ng-click="goToChosen('Assassin')">Assassin</md-option>
                             </md-select>
                         </div>
+                        <a><md-button ng-click="showIt = !showIt" class="md-accent">Pick your weapon</md-button></a>
                     </md-card-content>
                 </md-card>
-                <a ng-href="#!/{{selected}}"><md-button ng-click="toggleLeft()" class="md-accent">Pick your weapon</md-button></a>
+
+
+                <md-card ng-show="showIt">
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-subhead">Choose wisely to defeat your enemy.</span>
+                        </md-card-title-text>
+                    </md-card-title>
+                    <md-card-content>
+                        <div layout="row" layout-align="space-between center">
+                            <md-select ng-model="weapon" placeholder="weapons" class="md-no-underline">
+                                <md-option value="weapon 1" ng-click="">{{selected}} weapon 1</md-option>
+                                <md-option value="weapon 2" ng-click="">{{selected}} weapon 2</md-option>
+                                <md-option value="weapon 3" ng-click="">{{selected}} weapon 3</md-option>
+                            </md-select>
+                        </div>
+                    </md-card-content>
+                    <a ng-href="#!/gauntlet/{{selected}}"><md-button ng-click="" class="md-accent">Enter The Gauntlet</md-button></a>
+                </md-card>
             </md-content>
         </md-sidenav>
     </section>
