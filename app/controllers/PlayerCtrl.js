@@ -30,3 +30,4 @@ app.controller("PlayerCtrl", function($scope, $routeParams, PlayerStorage) {
         return player.health();
     };
 });
+
