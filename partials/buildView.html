@@ -45,10 +45,10 @@
                     </md-card-title>
                     <md-card-content>
                         <div layout="row" layout-align="space-between center">
-                            <md-select ng-model="weapon" placeholder="weapons" class="md-no-underline">
-                                <md-option value="weapon 1" ng-click="">{{selected}} weapon 1</md-option>
-                                <md-option value="weapon 2" ng-click="">{{selected}} weapon 2</md-option>
-                                <md-option value="weapon 3" ng-click="">{{selected}} weapon 3</md-option>
+                            <md-select placeholder="weapons" class="md-no-underline" ng-model="playerWeapon">
+                                <div ng-repeat="weapon in allTheWeapons">
+                                    <md-option value="{{weapon}}" ng-click="submitPlayerWeapon(weapon)">{{weapon}}</md-option>
+                                </div>
                             </md-select>
                         </div>
                     </md-card-content>
