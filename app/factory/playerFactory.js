@@ -55,18 +55,19 @@ let Warrior = Object.create(Champion, {
 		});
 
  let Vampire = Object.create(Monster, {
- 	weapons: {value: [{fangs: 15}, {handsomeness: 20}, {hellhounds: 10}]
- 	}
+ 	weapons: {value:{fangs: 15}}
+ 	
  });
 
  let Werewolf = Object.create(Monster, {
- 	weapons: {value: [{claws: 10}, {howl: 15}, {dogBreath: 20}]
- 	}
+ 	weapons: {value: {claws: 10}}
+ 	
  });
 
  let Politician = Object.create(Monster, {
- 	weapons: {value: [{alternativeFacts: 10}, {lies: 15}, {obfuscations: 20}]
- 	}
+ 	weapons: {value: {alternativeFacts: 10}}
+ 
+ 	
  });
 
 
