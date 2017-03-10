@@ -1,14 +1,18 @@
 "use strict";
 
 app.controller("PlayerCtrl", function($scope, $routeParams, PlayerStorage) {
+
     let player = {};
+
 
     $scope.selected = $routeParams.selected;
     console.log('$scope.selected = ', $scope.selected);
     // PlayerStorage.log();
     // console.log("playerstorage assassin", PlayerStorage.Assassin);
 
+
     let makeChosenChampionObject = function() {
+
 
         if ($routeParams.selected === "Warrior") {
             player = Object.create(PlayerStorage.Warrior, {});
